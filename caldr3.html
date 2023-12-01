@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <title>Month Calendar Generator</title>
+    <style>
+        table {
+            border-collapse:collapse;
+            width: 50%;
+            margin-left: 500px;
+           
+        }
+        th, td {
+            border: 2px solid #131313;
+            text-align: center;
+            padding: 10px;
+            background-color: rgb(215, 199, 219); 
+        }
+        
+</style>
+</head>
+<body align="center">
+<h1>Month Calendar Generator</h1><br><br>
+<label for="yearInput">Enter Year:</label>
+<input type="number" id="yearInput" min="1" placeholder="Enter a year">&nbsp&nbsp
+<label for="monthInput">Select Month:</label>
+<select id="monthInput">
+<option value="0">January</option>
+<option value="1">February</option>
+<option value="2">March</option>
+<option value="3">April</option>
+<option value="4">May</option>
+<option value="5">June</option>
+<option value="6">July</option>
+<option value="7">August</option>
+<option value="8">September</option>
+<option value="9">October</option>
+<option value="10">November</option>        
+<option value="11">December</option>
+</select><br><br>
+<button onclick="generateCalendar()">Generate Calendar</button>&nbsp&nbsp
+<input type="reset" value="reset" onclick="location.reload()"><br><br>
+<div id="calendarContainer"></div>
+<script>
+function generateCalendar() {
+const yearInput = document.getElementById("yearInput").value;
+const monthInput = document.getElementById("monthInput").value;
+if (!yearInput || yearInput <= 0 || monthInput < 0 || monthInput > 11) {
+alert("Please enter a valid year and select a valid month.");
+return;
+}
+const calendarContainer = document.getElementById("calendarContainer");
+calendarContainer.innerHTML = ""; 
+const daysInMonth = new Date(yearInput, parseInt(monthInput) + 1, 0).getDate();
+const table = document.createElement("table");
+const caption = table.createCaption();
+caption.textContent = `${new Date(yearInput, monthInput).toLocaleString('default', { month: 'long' })} ${yearInput}`;
+const headerRow = table.insertRow();
+for (let i = 0; i < 7; i++)
+{
+const headerCell = headerRow.insertCell();
+headerCell.textContent = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][i];
+}
+let day = 1;
+for (let i = 0; i < 6; i++) 
+{
+const row = table.insertRow();
+for (let j = 0; j < 7; j++) 
+{
+if (i === 0 && j < new Date(yearInput, monthInput, 1).getDay()) 
+{
+const cell = row.insertCell();
+cell.textContent = "";
+}
+else if (day <= daysInMonth)
+{
+const cell = row.insertCell();
+cell.textContent = day++;
+}
+}
+}
+calendarContainer.appendChild(table);
+}
+</script>
+</body>
+</html>
